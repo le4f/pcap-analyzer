@@ -52,6 +52,7 @@ def analyze(id):
     ipsrc = get_ip_src(file)
     ipdst = get_ip_dst(file)
     dstport = get_port_dst(file)
+    #如生产环境需注意可能存在的XSS
     pcapstat['mail'] = get_mail(file)
     pcapstat['web'] = get_web(file)
     dns,pcapstat['dnstable'] = get_dns(file)
