@@ -25,7 +25,7 @@ def show_entries():
 #获取包信息
 def get_pcap_entries(id):
     db = get_connection()
-    cur = db.execute('select * from pcap where id ='+ id + ';')
+    cur = db.execute('select * from pcap where id ='+ str(int(id)) + ';')
     entries = [dict(id=row[0], filename=row[1] ,filepcap=row[2], filesize=row[3]) for row in cur.fetchall()]
     return entries
 

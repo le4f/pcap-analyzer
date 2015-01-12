@@ -33,14 +33,16 @@ def upload():
 #下载
 @app.route('/download/<id>',methods=['GET'])
 def download(id):
+    id = int(id)
     db = get_connection()
-    pcapfile = get_pcap_entries(id)
+    pcapfile = get_pcap_entries()
     file = pcapfile[0]['filename']
     return send_file("../"+UPLOAD_FOLDER+file, attachment_filename=file, as_attachment=True)
 
 #分析包
 @app.route('/analyze/<id>',methods= ["GET"])
 def analyze(id):
+    id = int(id)
     db = get_connection()
     pcapfile = get_pcap_entries(id)
     file = pcapfile[0]['filename']
@@ -66,6 +68,7 @@ def analyze(id):
 #获取包细节
 @app.route('/packetdetail/<id>/<num>',methods= ["GET"])
 def packetdetail(id,num):
+    id = int(id)
     db = get_connection()
     pcapfile = get_pcap_entries(id)
     file = pcapfile[0]['filename']
@@ -81,8 +84,9 @@ def delete_file(id):
     delids = id.split(',')
     db = get_connection()
     for delid in delids:
-        cur = db.execute('select file from pcap where id = '+ delid + ';')
-        sql_exec('delete from pcap where id = '+delid+';')
+        delid = int(id)
+        cur = db.execute('select file from pcap where id = '+ str(delid) + ';')
+        sql_exec('delete from pcap where id = '+ str(delid) +';')
         os.remove(UPLOAD_FOLDER+cur.fetchall()[0][0]);
     return 'ok'
 
