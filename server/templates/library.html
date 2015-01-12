@@ -1,0 +1,75 @@
+{% set pie_library = { 	
+	"tooltip": { 
+		"pointFormat": '{series.name}: <b>{point.y}</b>'
+            }, 
+        "plotOptions": {"pie": {
+        	"borderWidth": 0,
+	        "dataLabels": { "enabled": false },
+	        "showInLegend": true,
+            }
+    	},
+		"title": { "text": "Packet Size" },
+
+
+} %}
+
+{% set col_library = { 
+	"yAxis": [{ 
+		"id": 0, 
+		"min": 0, 
+		"opposite": false, 
+		"title": {
+                "text": "Packets" }
+        }
+    ],
+    "title": { "text": "Protocols" }
+} %}
+
+{% set bar_src_library = { 
+	"yAxis": [{ 
+		"id": 0, 
+		"min": 0, 
+		"opposite": false, 
+		"title": {
+                "text": "Packets Num" }
+        }
+    ],
+    "title": { "text": "Source IP" },
+} %}
+
+{% set bar_dst_library = { 
+	"yAxis": [{ 
+		"id": 0, 
+		"min": 0, 
+		"opposite": false, 
+		"title": {
+                "text": "Packets Num" }
+        }
+    ],
+    "title": { "text": "Destnation IP" }
+} %}
+
+{% set bar_dns_library = { 
+	"yAxis": [{ 
+		"id": 0, 
+		"min": 0, 
+		"opposite": false, 
+		"title": {
+                "text": "Packets Num" }
+        }
+    ],
+    "title": { "text": "DNS Requests" },
+} %}
+
+{% set pie_dst_library = { 
+	"tooltip": { 
+		"pointFormat": '{series.name}: <b>{point.y}</b>'
+            }, 
+        "plotOptions": {"pie": {
+        	"borderWidth": 0,
+	        "dataLabels": { "enabled": false },
+	        "showInLegend": true,
+            }
+    	},
+		"title": { "text": "Destnation Ports" },
+} %}

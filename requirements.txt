@@ -1,0 +1,7 @@
+--index-url http://mirrors.aliyun.com/pypi/simple/
+Flask==0.10.1
+Werkzeug==0.9.4
+pyshark==0.3.3
+chartkick==0.4.2
+Logbook==0.7.0
+gevent

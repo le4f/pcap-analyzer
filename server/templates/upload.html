@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="ui dividing header">Pcap File Manage</h3>
+  <div class="ui two column fitted stackable grid">
+	<!--column1-->
+	<div class="ui eleven wide column">
+  	<div class="ui segment">
+		<table class="ui black celled table">
+		  <thead>
+		    <tr><tr>
+		      <th>File</th>
+		      <th>Packets</th>
+		      <th>Size</th>
+		      <th class="center aligned">Option</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  {% for CapFile in CapFiles %}
+		    <tr>
+		      <td width="40%">{{ CapFile.filename }}</td>
+		      <td>{{ CapFile.filepcap }}</td>
+		      <td width="20%">{{ CapFile.filesize }}</td>
+		      <td class="right aligned collapsing">
+		        <div class="ui fitted toggle checkbox">
+		          <input type="checkbox" name="checkoption" value="{{ CapFile.id }}"><label></label>
+		        </div>
+		      </td>
+		    </tr>
+		  {% endfor %}
+		  </tbody>
+		  <tfoot class="full-width">
+		    <tr>
+		      <th colspan="4">
+		        <div class="ui black small right floated button" id="analyze-button">
+		          <i class="search icon" ></i>Analyze
+		        </div>
+		        <div class="ui small button" id="delete-button">
+		          Delete
+		        </div>
+		        <div class="ui small button" id="download-button">
+		          Download
+		        </div>
+		      </th>
+		    </tr>
+		  </tfoot>
+		</table>
+
+	<div class="ui small del modal " id='del-confirm'>
+	    <div class="header">
+	      Delete File?
+	    </div>
+	    <div class="content">
+	      <p>Are you sure you want to delete these file?</p>
+	    </div>
+	    <div class="actions">
+	      <div class="ui negative button">
+	        No
+	      </div>
+	      <div class="ui positive right labeled icon button">
+	        Yes
+	        <i class="checkmark icon"></i>
+	      </div>
+	    </div>
+	</div>
+
+	<div class="ui small ok modal" id='upload-ok'>
+	    <div class="header">
+	      Upload File
+	    </div>
+	    <div class="content">
+	      <p>File Upload OK!</p>
+	    </div>
+	    <div class="actions">
+	      <div class="ui positive right labeled icon button">
+	        Yes
+	        <i class="checkmark icon"></i>
+	      </div>
+	    </div>
+	</div>
+
+	</div>
+	</div>
+
+	<!--column2-->
+	<div class="ui five wide column">
+	<div class="ui segment">
+	  <div class="field">
+		<h5 class="ui dividing header">Upload Pcap File</h5>
+		<span class="fluid ui black button fileinput-button"><i class="cloud upload icon"></i>Upload
+		<input id='fileupload' type="file" name="pcapfile" data-url="/upload">
+		</span>
+		<br/>
+		<div id="upprogress" class="ui green file progress">
+		  <div class="progress">
+		    <div class="bar"></div>
+		  </div>
+		  <div class="label" id='progresslabel'></div>
+		</div>
+	  </div>
+	</div>
+	</div>
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}

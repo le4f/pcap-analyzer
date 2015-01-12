@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "library.html" as library %}
+<h3 class="ui dividing header">Pcap File Stats</h3>
+	<div class="ui stacked segment">
+		<div class="ui fitted stackable grid">
+			<div class="ui sixteen wide column">
+				<div class="ui black center aligned segment">
+					<div class="ui large horizontal list">
+					  <div class="item">
+					    <i class="file text outline icon"></i>
+					    <div class="content">
+					      <div class="header">FileName</div>{{ pcapfile.filename }}
+					    </div>
+					  </div>
+					  <div class="item">
+					    <i class="database icon"></i>
+					    <div class="content">
+					      <div class="header">FileSize</div>{{ pcapfile.filesize }}
+					    </div>
+					  </div>
+					  <div class="item">
+					    <i class="info circle icon"></i>
+					    <div class="content">
+					      <div class="header">Packets</div>{{ pcapfile.filepcap }}
+					    </div>
+					  </div>
+					  <div class="item">
+					    <i class="zoom icon"></i>
+					    <div class="content">
+					      <div class="header">Avg Packet Length</div>{{ details['stats']['avg_length'] }}
+					    </div>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" name="analyzeid" value="{{ pcapfile.id }}">
+		<div class="ui two column fitted stackable grid">
+			<div class="ui eleven wide column">
+  				<div class="ui black segment">
+					{% column_chart details['stats']['breakdown'] with library=library.col_library %}
+				</div>
+			</div>
+			<div class="ui five wide column">
+				<div class="ui black segment">
+					{% pie_chart details['stats']['length_buckets'] with library=library.pie_library %}
+				</div>
+			</div>
+		</div>
+
+		<div class="spinner hide">
+			<div class="ui packetPane modal"></div>
+		</div>
+
+		<div class="ui small que modal">
+			<i class="close icon"></i>
+		    <div class="header">
+		    	Confirm Filter?
+		    </div>
+		    <div class="actions">
+		    	<div class="ui negative button">
+		        No
+		      	</div>
+		     	<div class="ui positive right labeled icon button">
+		        Yes
+		        <i class="checkmark icon"></i>
+		      </div>
+		    </div>
+		</div>
+
+		<br/>
+		<div class="ui top attached black pointing menu">
+		  <a class="active item" data-tab="first">Packets Display</a>
+		  <a class="item" data-tab="second">Packets Statistics</a>
+		  <a class="item" data-tab="third">Web Request Analyze</a>
+		  <a class="item" data-tab="fourth">DNS Request List</a>
+		  <a class="item" data-tab="fifth">Mail Packets List</a>
+		</div>
+		<div class="ui bottom attached active tab segment" data-tab="first">
+			<!--first-->
+			<div class="ui stacked segment" style="height:37rem">
+				<div class="ui search">
+					<div class="ui icon input">
+						<i class="search icon"></i>
+						<input class="prompt" type="text" id="filter" placeholder="Packets Filter">
+					</div>
+				 	<div class="results"></div>
+				</div>
+				<br/>
+				<div style="position:absolute; height:31rem; overflow:auto">
+				<table class="ui black small table" id="pcaptable" cellpadding="0" cellspacing="0">
+					<thead>
+					    <tr>
+							<th width="6%">#</th>
+							<th width="9%">Time</th>
+							<th width="13%">Source</th> 
+							<th width="13%">Destination</th>
+							<th width="3%">Protocol</th>
+							<th width="3%">Length</th>
+							<th>Info</th>
+					    </tr>
+					</thead>
+					<tbody style="cursor:pointer;">
+					{% for packet in details['packets'] %}
+						{% if packet.protocol == 'HTTP' %}<tr class="positive">
+						{% elif packet.protocol == 'TCP' %}<tr class="warning">
+						{% elif packet.protocol == 'UDP' %}<tr class="negative">
+						{% else %}<tr>
+						{% endif %}
+						<td class="number">{{ packet.number }}</td>
+						<td>{{ packet.time }}</td>
+						<td>{{ packet.src_ip}} </td>
+						<td>{{ packet.dst_ip }} </td>
+						<td>{{ packet.protocol }} 
+						{% if packet.stream %}<a class="filter-stream pull-right" data-filter="tcp.stream == {{ packet.stream }}" title="Follow Stream ({{ packet.stream }})"><i class="fa fa-space-shuttle"></i></a>{% endif %}
+						</td>
+						<td>{{ packet.length }}</td>
+						<td style="max-width: 200px;white-space:nowrap; overflow: hidden;">{{ packet.desc }}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+		<div class="ui bottom attached tab segment" data-tab="second">
+		<!--second-->
+			<div class="ui stacked segment">
+				<div class="ui raised segment">
+					<a class="ui black ribbon label">Packets Stat</a>
+						<div class="ui segment">
+							<div class="ui very relaxed horizontal list">
+							  <div class="item">
+							    <i class="exchange icon"></i>
+							    <div class="content">
+							      <a class="header">{{pcapstat.total}}</a> Total Packets
+							    </div>
+							  </div>
+							  <div class="item">
+							    <i class="exchange icon"></i>
+							    <div class="content">
+							      <a class="header">{{pcapstat.tcp}}</a> TCP Packets
+							    </div>
+							  </div>
+							  <div class="item">
+							    <i class="exchange icon"></i>
+							    <div class="content">
+							      <a class="header">{{pcapstat.udp}}</a> TCP Packets
+							    </div>
+							  </div>
+							</div>
+							<br/><br/>
+							<div class="ui very relaxed horizontal list">
+							  <div class="item">
+							    <i class="exchange icon"></i>
+							    <div class="content">
+							      <a class="header">{{pcapstat.arp}}</a> ARP Packets
+							    </div>
+							  </div>
+							  <div class="item">
+							    <i class="exchange icon"></i>
+							    <div class="content">
+							      <a class="header">{{pcapstat.icmp}}</a> ICMP Packets
+							    </div>
+							  </div>
+							  <div class="item">
+							    <i class="exchange icon"></i>
+							    <div class="content">
+							      <a class="header">{{pcapstat.other}}</a> Other Packets
+							    </div>
+							  </div>
+							</div>
+						</div>
+					<a class="ui red ribbon label">Packets Flow</a>
+						<div class="ui stacked segment">
+							<div class="ui black center aligned segment">
+								{% bar_chart pcapstat.ipsrc with library=library.bar_src_library %}
+							</div>
+				  			<div class="ui black segment">
+								{% bar_chart pcapstat.ipdst with library=library.bar_dst_library %}
+							</div>
+							<div class="ui black segment">
+								{% pie_chart pcapstat.dstport with library=library.pie_dst_library %}
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui bottom attached tab segment" data-tab="third">
+			<div class="ui raised segment">
+			<a class="ui red ribbon label">Web Packets</a>
+				<div class="ui black segment" style = "word-wrap: break-word;word-break:break-all;">
+					{% autoescape false %}
+					{{pcapstat.web}}
+					{% endautoescape %}
+				</div>
+			</div>
+		</div>
+		<div class="ui bottom attached tab segment" data-tab="fourth">
+			<div class="ui raised segment">
+				<a class="ui red ribbon label">DNS Requests</a>
+					<div class="ui stacked segment">
+						<div class="ui black center aligned segment">
+							{% bar_chart pcapstat.dns with library=library.bar_dns_library %}
+						</div>
+						<div class="ui black center aligned segment">
+							{% autoescape false %}
+							{{ pcapstat.dnstable }}
+							{% endautoescape%}
+						</div>
+					</div>
+			</div>
+		</div>
+		<div class="ui bottom attached tab segment" data-tab="fifth">
+			<div class="ui raised segment">
+			<a class="ui red ribbon label">Mail Packets</a>
+				<div class="ui black segment">
+					{% autoescape false %}
+					{{pcapstat.mail}}
+					{% endautoescape %}
+				</div>
+			</div>
+		</div>
+	</div>
+<style type="text/css">
+        table tbody td
+        {
+            word-break: break-all;
+            word-wrap: break-word;
+        }
+</style>
+<script src="{{ url_for('static', filename='js/fixtableheader.js') }}"></script>
+<script src="{{ url_for('static', filename='js/analyze.js') }}"></script>
+{% endblock %}

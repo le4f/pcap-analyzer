@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Pcap-Analyzer</title>
+  <link rel="alternate icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/semantic.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='components/icon.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.fileupload.css') }}">
+  <script src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/semantic.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.ui.widget.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/highcharts.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/chartkick.js') }}"></script>
+  <script>
+  $(document).ready(function() {
+    $("#loading").hide();
+  });
+  </script>
+</head>
+<body id='home'>
+<div class="ui active dimmer" id="loading">
+  <div class="ui medium indeterminate text loader">Loading</div>
+</div>
+<div class="ui basic active modal" id="loadbar">
+  <div class="ui dimmer" id="loadbartable">
+      <div class="ui medium indeterminate text loader">Loading</div>
+  </div>
+</div>
+<div class="ui fixed inverted menu">
+  <a class="item" style='margin-left: 10rem;padding: 1.2rem;' href='/'>
+    <i class="home icon"></i>Pcap-Analyzer
+  </a>
+  <a class="item" style='padding: 1.2rem;' href='/upload' id='analyzer-nav'>
+    <i class="search icon"></i> Analyzer
+  </a>
+  <a class="item" style='padding: 1.2rem;' href='/upload' id='upload-nav'>
+    <i class="cloud upload layout icon"></i>Upload Pcap
+  </a>
+</div>
+<br/>
+<div class="ui divider"></div>
+<div id = 'wrapper'>
+<div class="ui small form">
+<div class="ui segment">
+{% block content %}
+{% endblock %}
+</div>
+</div>
+</div>
+<br/><br/>
+</body>
+</html>

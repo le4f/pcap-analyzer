@@ -1,0 +1,10 @@
+body {
+	background-color: #E9E9E9;
+    background-image: url(/../img/2.gif);
+}
+
+#wrapper{
+	margin-top:3.5rem;
+	margin-left:10rem;
+	margin-right:10rem;
+}
