@@ -39,7 +39,8 @@ def sql_exec(sql):
 #列出文件
 def list_file(CapFiles):
     files = os.listdir(UPLOAD_FOLDER)
-    files.remove('.DS_Store')
+    if '.DS_Store' in files:
+        files.remove('.DS_Store')
     dbfiles = [entry['filename'] for entry in show_entries()]
     for file in files:
         if file in dbfiles:
@@ -197,7 +198,6 @@ $(document).ready(function(){
                 pass
 
             detail += '<p><strong>%s</strong>%s</p>\n' % (keyword, value)
-
     detail += '''
                 </div>
             </div>
