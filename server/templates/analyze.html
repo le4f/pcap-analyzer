@@ -101,7 +101,7 @@
 							<th>Info</th>
 					    </tr>
 					</thead>
-					<tbody style="cursor:pointer;">
+					<tbody style="cursor:pointer;" class="pktdetail">
 					{% for packet in details['packets'] %}
 						{% if packet.protocol == 'HTTP' %}<tr class="positive">
 						{% elif packet.protocol == 'TCP' %}<tr class="warning">

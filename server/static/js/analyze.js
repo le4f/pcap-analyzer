@@ -45,7 +45,7 @@ $(document).ready(function() {
 	   		}
 	 });
 	
-	$('tbody tr').on('click', function(e){
+	$('.pktdetail tr').on('click', function(e){
 			$("#loadbartable").addClass('active');
 			$("#loadbar").modal({closable  : true,}).modal('show');
 	   		e.preventDefault();
