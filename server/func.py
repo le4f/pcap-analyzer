@@ -24,8 +24,13 @@ def show_entries():
 
 #获取包信息
 def get_pcap_entries(id):
+    try:
+        id = int(id)
+    except:
+        print 'Notice : You are being attacked.'
+        exit()
     db = get_connection()
-    cur = db.execute('select * from pcap where id ='+ str(int(id)) + ';')
+    cur = db.execute('select * from pcap where id ='+ str(id) + ';')
     entries = [dict(id=row[0], filename=row[1] ,filepcap=row[2], filesize=row[3]) for row in cur.fetchall()]
     return entries
 

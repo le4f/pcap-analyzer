@@ -85,8 +85,12 @@ def delete_file(id):
     delids = id.split(',')
     db = get_connection()
     for delid in delids:
-        delid = int(id)
-        cur = db.execute('select file from pcap where id = '+ str(delid) + ';')
+        try:
+            delid = int(delid)
+        except:
+            print 'Notice : You are being attacked.'
+            exit()
+        cur = db.execute('select file from pcap where id = '+ str(delid) + ';') 
         sql_exec('delete from pcap where id = '+ str(delid) +';')
         os.remove(UPLOAD_FOLDER+cur.fetchall()[0][0]);
     return 'ok'
