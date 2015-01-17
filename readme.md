@@ -41,7 +41,9 @@ Files
 │   ├── static(静态文件)
 │   └── templates(模板)
 ├── readme.md(项目说明)
-└── requirements.txt(python库依赖)
+├── requirements.txt(python库依赖)
+├── run.sh(运行项目)
+└── run.bat(Windows下运行项目)
 ```
 
 Installation/Running
@@ -50,8 +52,9 @@ Installation/Running
 * `$ git clone https://github.com/le4f/pcap-analyzer.git`
 * `$ cd pcap-analyzer`
 * `$ pip install -r requirements.txt`
-* `$ python app.py`
-* `View http://localhost:8080/ `
+* `$ chmod +x run.sh`
+* `$ ./run.sh`
+* `View http://127.0.0.1:8080/ `
 
 Screenshots
 ---
